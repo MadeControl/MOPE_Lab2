@@ -48,14 +48,18 @@ public class MOPE_lab2 {
     static float a_1 = 0;
     static float a_2 = 0;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
+        mainMethod();
+
+    }
+
+    private static void mainMethod() throws InterruptedException {
         showY();
         fillMatrixOfY();
         averageOfY();
         fillDispersia();
         criterionRomanovskiy();
-
     }
 
     private static void showY() {
@@ -125,7 +129,7 @@ public class MOPE_lab2 {
         System.out.println("\nОсновне відхилення:\nsigma = " + sigma);
     }
 
-    private static void criterionRomanovskiy() {
+    private static void criterionRomanovskiy() throws InterruptedException {
         F_uv[0] = calculateF(dispersia[0], dispersia[1]);
         F_uv[1] = calculateF(dispersia[0], dispersia[2]);
         F_uv[2] = calculateF(dispersia[1], dispersia[2]);
@@ -146,7 +150,14 @@ public class MOPE_lab2 {
             System.out.println();
         }
         if (bool) {
-            System.out.println("\nОтже, дисперсія не однорідна...");
+            System.out.println("\nОтже, дисперсія не однорідна... Потрібно збільшити значення m і повторити всі дії " +
+                    "з самого початку.\nДо збільшення m = "+m+".");
+            m += 1;
+            System.out.println("Після збільшення m = "+m+".\nРежим очікування: 3 секунди...\n\nНОВИЙ ДОСЛІД\n");
+            matrix_Y = new float[3][m];
+            sigma = (float) Math.sqrt((float) (2 * (2 * m - 2)) / (float) (m * (m - 4)));
+            Thread.sleep(3000);
+            mainMethod();
         } else {
             System.out.println("\nОтже, дисперсія однорідна.");
             calculateNormCoefficients();
